@@ -10,3 +10,5 @@ set(
 project(${APP_NAME})
 
 add_executable(${APP_NAME} ${SOURCES})
+
+target_link_libraries(${APP_NAME} lua)
