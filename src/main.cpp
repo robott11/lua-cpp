@@ -1,6 +1,19 @@
 #include <cstring>
 #include <iostream>
 #include <lua.hpp>
+#include <string>
+
+static int l_example_function(lua_State* L)
+{
+    const char* message = lua_tostring(L, 1);
+
+    std::string final_message = "MESSAGE FROM CPP FUNC: ";
+    final_message.append(message);
+
+    lua_pushstring(L, final_message.c_str());
+
+    return 1;
+}
 
 int main(int argc, char** argv)
 {
@@ -8,11 +21,13 @@ int main(int argc, char** argv)
     lua_State* L = luaL_newstate();
     luaL_openlibs(L);
 
-    const char* msg = "Hello World!";
+    lua_pushcfunction(L, l_example_function);
+    lua_setglobal(L, "example_function");
 
-    int value_type = lua_getglobal(L, "print");
-    lua_pushlstring(L, msg, strlen(msg));
-    lua_call(L, 1, 1);
+    const char* config_file = "../example_script.lua";
+
+    luaL_loadfile(L, config_file);
+    lua_pcall(L, 0, 0, 0);
 
     return EXIT_SUCCESS;
 }
