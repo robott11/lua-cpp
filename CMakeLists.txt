@@ -1,4 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
+set(CMAKE_CXX_STANDARD 11)
 
 set(APP_NAME lua-cpp)
 set(SRC_DIR src)
